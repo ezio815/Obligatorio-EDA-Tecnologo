@@ -11,8 +11,8 @@ TipoRet CrearOrg(Empresa &e, Cadena cargo) {
     Cargo nuevoCargo = new(nodo_cargo);
     nuevoCargo->nombre = cargo;
     nuevoCargo->padre = NULL;
-    nuevoCargo->subCargos = NULL;
-    nuevoCargo->numSubCargos = 0;
+    nuevoCargo->primerHijo = NULL;
+    nuevoCargo->siguienteHermano = NULL;
     nuevoCargo->personas = NULL;
     nuevoCargo->numPersonas = 0;
 
@@ -21,14 +21,19 @@ TipoRet CrearOrg(Empresa &e, Cadena cargo) {
 }
 
 Cargo buscarCargo(Cargo cargo, Cadena nombreCargo) {
-    if (strcasecmp(cargo->nombre, nombreCargo) == 0) {
+    if (cargo == NULL)
+        return NULL;
+    if (strcasecmp(cargo->nombre, nombreCargo) == 0)
         return cargo;
+    if (cargo->primerHijo != NULL) {
+        Cargo aux = (buscarCargo(cargo->primerHijo, nombreCargo));
+        if (aux != NULL)
+            return aux;
     }
-    for (int i = 0; i < cargo->numSubCargos; i++) {
-        Cargo* encontrado = buscarCargo(cargo->subCargos[i], nombreCargo);
-        if (encontrado != NULL) {
-            return encontrado;
-        }
+    if (cargo->siguienteHermano != NULL) {
+        Cargo aux =  (buscarCargo(cargo->siguienteHermano, nombreCargo));
+        if (aux != NULL)
+            return aux;
     }
     return NULL;
 }
@@ -47,17 +52,15 @@ TipoRet NuevoCargo(Empresa &e, Cadena cargoPadre, Cadena nuevoCargo) {
         return ERROR; 
     }
 
-    Cargo* nuevo = (Cargo*)malloc(sizeof(Cargo));
+    Cargo nuevo = new(nodo_cargo);
     nuevo->nombre = nuevoCargo;
     nuevo->padre = padre;
-    nuevo->subCargos = NULL;
-    nuevo->numSubCargos = 0;
+    nuevo->primerHijo = NULL;
+    nuevo->siguienteHermano = NULL;
     nuevo->personas = NULL;
     nuevo->numPersonas = 0;
 
-    padre->numSubCargos++;
-    padre->subCargos = (Cargo**)realloc(padre->subCargos, padre->numSubCargos * sizeof(Cargo*));
-    padre->subCargos[padre->numSubCargos - 1] = nuevo;
+    padre->primerHijo = nuevo;
 
     return OK;
 }

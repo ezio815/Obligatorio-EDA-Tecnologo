@@ -31,9 +31,9 @@ typedef struct nodo_cargo * Cargo;
 struct nodo_cargo {
     Cadena nombre;                  
     Cargo padre;            
-    Cargo* subCargos;       
-    int numSubCargos;               
-    Persona* personas;             
+    Cargo primerHijo;        
+    Cargo siguienteHermano;   
+    Persona* personas;
     int numPersonas;                
 };
 
