@@ -1,7 +1,5 @@
 #include "empresa.h"
 
-using namespace std;
-
 struct nodo_empresa {
     Cadena nombre;
     Cargos raiz; 
@@ -22,16 +20,10 @@ TipoRet NuevoCargo(Empresa &e, Cadena cargoPadre, Cadena nuevoCargo) {
     if (e->raiz == NULL) {
         return ERROR; 
     }
-    return CrearCargo(e->raiz, cargoPadre, nuevoCargo);
+    return CrearCargos(e->raiz, cargoPadre, nuevoCargo);
 }
 
-void listarJerarquiaRecursiva(Cargos cargo, int nivel) {
-    for (int i = 0; i < nivel; i++) printf("  ");
-    printf("%s\n", cargo->nombre);
-    for (int i = 0; i < cargo->numSubCargos; i++) {
-        listarJerarquiaRecursiva(cargo->subCargos[i], nivel + 1);
-    }
-}
+
 
 TipoRet ListarCargosAlf(Empresa e) {
 
@@ -39,7 +31,7 @@ TipoRet ListarCargosAlf(Empresa e) {
 
 
 TipoRet ListarJerarquia(Empresa e) {
-    if (e.raiz == NULL) {
+    if (e->raiz == NULL) {
         return ERROR; 
     }
     listarJerarquiaRecursiva(e.raiz, 0);
