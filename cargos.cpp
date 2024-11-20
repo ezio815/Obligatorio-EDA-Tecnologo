@@ -4,8 +4,8 @@
 
 typedef struct nodo_arbol_cargos * ArbolCargos;
 struct nodo_arbol_cargos {
-    ArbolCargos padre;            
-    ArbolCargos primerHijo;        
+    ArbolCargos padre;
+    ArbolCargos primerHijo;
     ArbolCargos siguienteHermano;
     Cargo cargo;
 };

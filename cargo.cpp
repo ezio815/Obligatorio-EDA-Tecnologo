@@ -1,4 +1,4 @@
-#include "cargos.h"
+#include "cargo.h"
 
 struct nodo_cargo {
     Cadena nombre;
@@ -20,4 +20,14 @@ TipoRet EliminarCargo(Cargo &c) {
 
 Cadena NombreCargo(Cargo cargo) {
     return cargo->nombre;
+}
+
+bool cargoVacio(Cargo c) {
+    return c == NULL;
+}
+
+TipoRet AñadirPersonaCargo(Cargo c, Cadena ci, Cadena nombre) {
+    if (cargoVacio(c))
+        return ERROR;
+    return CrearPersonas(c->personas, ci, nombre);
 }

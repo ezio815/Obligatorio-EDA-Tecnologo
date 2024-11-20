@@ -14,10 +14,4 @@ typedef enum {
     NO_IMPLEMENTADA
 } TipoRet;
 
-// Estructura para representar a una persona
-typedef struct {
-    Cadena ci;     
-    Cadena nombre; 
-} Persona;
-
 #endif

@@ -2,7 +2,7 @@
 
 struct nodo_empresa {
     Cadena nombre;
-    Cargos raiz; 
+    Cargos raiz;
 };
 
 TipoRet CrearOrg(Empresa &e, Cadena cargo) {
@@ -34,7 +34,7 @@ TipoRet ListarJerarquia(Empresa e) {
     if (e->raiz == NULL) {
         return ERROR; 
     }
-    listarJerarquiaRecursiva(e.raiz, 0);
+    ListarJerarquiaRecursiva(e.raiz, 0);
     return OK;
 }
 

@@ -2,17 +2,14 @@
 #define PERSONAS_H
 
 #include "definiciones.h"
+#include "persona.h"
 
 typedef struct nodo_personas * Personas;
-struct nodo_personas {
-    Personas sig;
-    Persona persona;               
-};
 
-TipoRet CrearPersonas(Personas &c);
-// Crea un cargo
+TipoRet CrearPersonas(Personas &c, Cadena ci, Cadena nombre);
+// Crea personas
 
 TipoRet EliminarPersonas(Personas &c);
-// Eliminar un cargo
+// Eliminar personas
 
 #endif
