@@ -2,7 +2,6 @@
 #define CARGOS_H
 
 #include "definiciones.h"
-#include "cargo.h"
 
 typedef struct nodo_cargos * Cargos;
 

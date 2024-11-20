@@ -1,19 +1,5 @@
-/*#ifndef EMPRESA_H
-#define EMPRESA_H
-
-#include "definiciones.h"
-
-void InicializarEmpresa(Empresa *e);
-TipoRet CrearOrg(Empresa *e, Cadena cargo);
-TipoRet NuevoCargo(Empresa *e, Cadena cargoPadre, Cadena nuevoCargo);
-TipoRet ListarJerarquia(Empresa e);
-TipoRet EliminarOrg(Empresa *e);
-
-#endif*/
-
 #ifndef EMPRESA_H
 #define EMPRESA_H
-
 
 // Estructuras de Datos y Algoritmos - Curso 2024
 // Tecnologo en Informatica FIng - DGETP - UTEC
@@ -24,8 +10,6 @@ TipoRet EliminarOrg(Empresa *e);
 
 
 #include "definiciones.h"
-#include "cargos.h"
-
 
 typedef struct nodo_empresa * Empresa;
 

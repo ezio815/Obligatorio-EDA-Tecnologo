@@ -2,7 +2,6 @@
 #define CARGO_H
 
 #include "definiciones.h"
-#include "personas.h"
 
 typedef struct nodo_cargo * Cargo;
 
