@@ -5,6 +5,14 @@ typedef struct nodo_persona {
     Cadena nombre;
 };
 
+Cadena NombrePersona(Persona p) {
+    return p->nombre;
+}
+
+Cadena CiPersona(Persona p) {
+    return p->ci;
+}
+
 Persona CrearPersona(Cadena ci, Cadena nombre) {
     Persona persona = new(nodo_persona);
     strcpy(persona->ci, ci);

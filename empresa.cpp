@@ -54,11 +54,16 @@ TipoRet EliminarOrg(Empresa &e) {
     return OK;
 }
 
+TipoRet EliminarCargo(Empresa &e, Cadena cargo) {
+    if (empresaVacia(e))
+        return ERROR;
+    return EliminarCargoCargos(e->cabezal, cargo);
+}
+
 TipoRet ListarJerarquia(Empresa e) {
     if (e->cabezal == NULL) {
         return ERROR; 
     }
-    listarJerarquiaRecursiva(e->cabezal, 0);
-    return OK;
+    return ListarJerarquiaCargos(e->cabezal);
 }
 

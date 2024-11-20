@@ -28,4 +28,13 @@ TipoRet ListarPersonasCargos(Cargos c, Cadena cargo);
 TipoRet EliminarCargos(Cargos &c);
 // Eliminar un cargo
 
+TipoRet EliminarCargoCargos(Cargos &c, Cadena cargo);
+// Eliminar un cargo, junto con sus subcargos y personas asociadas.
+// Elimina un cargo en la empresa si cargo ya existe en la misma.
+// En otro caso la operación quedará sin efecto.
+// Si el cargo a eliminar posee subcargos, éstos deberán ser eliminados también, así como
+// las personas asociadas a cada uno de los cargos suprimidos.
+
+TipoRet ListarJerarquiaCargos(Cargos c);
+
 #endif

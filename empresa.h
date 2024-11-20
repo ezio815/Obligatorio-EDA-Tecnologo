@@ -68,7 +68,7 @@ TipoRet EliminarCargo(Empresa &e, Cadena cargo);
 TipoRet ListarJerarquia(Empresa e);
 // Listar todos los cargos de la empresa en orden jerárquico. 
 // Lista todos los cargos de la empresa ordenados por nivel jerárquico e indentados
-// según se muestra el ejemplo de la letra. 
+// según se muestra el ejemplo de la letra.
 
 TipoRet EliminarPersona(Empresa &e, Cadena ci);
 // Eliminar una persona de un cargo.

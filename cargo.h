@@ -8,9 +8,13 @@ typedef struct nodo_cargo * Cargo;
 
 TipoRet CrearCargo(Cargo &c, Cadena nombre);
 
-TipoRet EliminarCargo(Cargo &c);
+bool CargoVacio(Cargo c);
+
+TipoRet EliminarCargoCargo(Cargo &c);
 
 Cadena NombreCargo(Cargo cargo);
+
+TipoRet BuscarPersonaCargo(Cargo c, Cadena ci);
 
 TipoRet AsignarPersonaCargo(Cargo &c, Cadena nom, Cadena ci);
 // Asignar una persona a un cargo, si este existe.

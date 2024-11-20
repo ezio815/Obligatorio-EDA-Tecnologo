@@ -1,5 +1,4 @@
 #include "cargos.h"
-#include "cargo.h"
 #include <strings.h>
 
 typedef struct nodo_arbol_cargos * ArbolCargos;
@@ -28,7 +27,7 @@ bool listaVacia(ListaCargos lista) {
     return lista == NULL;
 }
 
-bool cargoVacio(Cargos cargos) {
+bool cargosVacio(Cargos cargos) {
     return cargos == NULL;
 }
 
@@ -82,7 +81,7 @@ void insertarEnLista(ListaCargos nuevaLista, ListaCargos &listaOriginal) {
 }
 
 TipoRet CrearCargos(Cargos &c, Cadena nombreCargo) {
-    if (!cargoVacio(c))
+    if (!cargosVacio(c))
         return ERROR;
 
     c = new(nodo_cargos);
@@ -108,7 +107,7 @@ TipoRet CrearCargos(Cargos &c, Cadena nombreCargo) {
 }
 
 TipoRet NuevoCargos(Cargos &c, Cadena nombrePadre, Cadena nombreCargo) {
-    if (cargoVacio(c)) 
+    if (cargosVacio(c)) 
         return ERROR;
 
     if (buscarCargoLista(c->lista, nombreCargo) != NULL) {
@@ -148,21 +147,31 @@ void listarCargosAlfRecursiva(ListaCargos lista) {
 }
 
 TipoRet ListarCargosAlfCargos(Cargos c) {
-    if (cargoVacio(c) || listaVacia(c->lista))
+    if (cargosVacio(c) || listaVacia(c->lista))
         return ERROR;
     listarCargosAlfRecursiva(c->lista);
     return OK;
 }
 
+TipoRet buscarPersonaCargos(ListaCargos l, Cadena ci) {
+    if (listaVacia(l))
+        return OK;
+    if (BuscarPersonaCargo(l->cargo, ci) == ERROR)
+        return ERROR;
+    return buscarPersonaCargos(l->siguiente, ci);
+}
+
 TipoRet AsignarPersonaCargos(Cargos &c, Cadena cargo, Cadena nom, Cadena ci) {
-    if (cargoVacio(c) || listaVacia(c->lista))
+    if (cargosVacio(c) || listaVacia(c->lista))
+        return ERROR;
+    if (buscarPersonaCargos(c->lista, ci) == ERROR)
         return ERROR;
     ListaCargos lista = buscarCargoLista(c->lista, cargo);
     return AsignarPersonaCargo(lista->cargo, nom, ci);
 }
 
 TipoRet ListarPersonasCargos(Cargos c, Cadena cargo) {
-    if (cargoVacio(c))
+    if (cargosVacio(c))
         return ERROR;
     ListaCargos lista = buscarCargoLista(c->lista, cargo);
     if (listaVacia(lista))
@@ -173,31 +182,74 @@ TipoRet ListarPersonasCargos(Cargos c, Cadena cargo) {
 TipoRet eliminarLista(ListaCargos &l) {
     if (!listaVacia(l)) {
         eliminarLista(l->siguiente);
-        if (EliminarCargo(l->cargo) == ERROR)
-            return ERROR;
         delete(l);
         l = NULL;
-        return OK;
     }
+    return OK;
 }
 
-void eliminarArbol(ArbolCargos &a) {
+TipoRet eliminarArbol(ArbolCargos &a) {
     if (!arbolVacio(a)) {
         eliminarArbol(a->siguienteHermano);
         eliminarArbol(a->primerHijo);
+        if (EliminarCargoCargo(a->cargo) == ERROR)
+            return ERROR;
         delete(a);
         a = NULL;
     }
+    return OK;
 }
 
 TipoRet EliminarCargos(Cargos &c) {
-    if (cargoVacio(c) && eliminarLista(c->lista) == ERROR)
+    if (cargosVacio(c) || eliminarLista(c->lista) == ERROR)
         return ERROR;
     eliminarArbol(c->arbol);
     c = NULL;
     return OK;
 }
 
+
+TipoRet eliminarNodoArbol(ArbolCargos &a) {
+    if (EliminarCargoCargo(a->cargo) == ERROR)
+        return ERROR;
+    if (eliminarArbol(a->primerHijo) == ERROR)
+        return ERROR;
+    ArbolCargos aux = a->siguienteHermano;
+    if (!arbolVacio(aux)) {
+        a->primerHijo = aux->primerHijo;
+        a->siguienteHermano = aux->siguienteHermano;
+        a->cargo;
+        delete(aux);
+    }
+    else {
+        delete(a);
+        a = NULL;
+    }
+    return OK;
+}
+
+void eliminarNodosVaciosLista(ListaCargos &l) {
+    if (!listaVacia(l)) {
+        if (CargoVacio(l->cargo)) {
+            ListaCargos aux = l->siguiente;
+            l->cargo = aux->cargo;
+            l->siguiente = aux->siguiente;
+            delete(aux);
+        }
+    }
+}
+
+TipoRet EliminarCargoCargos(Cargos &c, Cadena cargo) {
+    if (cargosVacio(c))
+        return ERROR;
+    if (listaVacia(buscarCargoLista(c->lista, cargo)))
+        return ERROR;
+    ArbolCargos arbol = buscarCargoArbol(c->arbol, cargo);
+    if (eliminarNodoArbol(arbol) == ERROR)
+        return ERROR;
+    eliminarNodosVaciosLista(c->lista);
+    return OK;
+}
 
 void listarJerarquiaRecursiva(ArbolCargos arbol, int nivel) {
     if (!arbolVacio(arbol)) {
@@ -210,7 +262,7 @@ void listarJerarquiaRecursiva(ArbolCargos arbol, int nivel) {
 }
 
 TipoRet ListarJerarquiaCargos(Cargos c) {
-    if (cargoVacio(c) || arbolVacio(c->arbol))
+    if (cargosVacio(c) || arbolVacio(c->arbol))
         return ERROR; 
     listarJerarquiaRecursiva(c->arbol, 0);
     return OK;

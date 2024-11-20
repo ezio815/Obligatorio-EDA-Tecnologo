@@ -12,6 +12,8 @@ TipoRet CrearPersonas(Personas &c, Cadena ci, Cadena nombre);
 TipoRet EliminarPersonas(Personas &p);
 // Eliminar personas
 
+TipoRet BuscarPersonaPersonas(Personas p, Cadena ci);
+
 TipoRet AsignarPersonaPersonas(Personas &p, Cadena nom, Cadena ci);
 // Asignar una persona a un cargo, si este existe.
 // Asigna una persona de nombre nom  y cédula de identidad ci al cargo cargo

@@ -1,4 +1,5 @@
 #include "personas.h"
+#include <strings.h>
 
 struct nodo_personas {
     Personas siguiente;
@@ -25,6 +26,15 @@ TipoRet CrearPersonas(Personas &c, Cadena ci, Cadena nombre) {
     Personas nuevo = new(nodo_personas);
     nuevo->persona = CrearPersona(ci, nombre);
     
+}
+
+TipoRet BuscarPersonaPersonas(Personas p, Cadena ci) {
+    if (personaVacia(p))
+        return OK;
+    int comparacion = strcasecmp(CiPersona(p->persona), ci);
+    if (comparacion == 0)
+        return ERROR;
+    return BuscarPersonaPersonas(p->siguiente, ci);
 }
 
 TipoRet AsignarPersonaPersonas(Personas &p, Cadena nom, Cadena ci) {
@@ -57,7 +67,7 @@ TipoRet eliminarLista(Personas &p) {
 }
 
 TipoRet EliminarPersonas(Personas &p) {
-    if (listaVacia(p) && eliminarLista(p) == ERROR)
+    if (listaVacia(p) || eliminarLista(p) == ERROR)
         return ERROR;
     p = NULL;
     return OK;
