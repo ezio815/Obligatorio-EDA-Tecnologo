@@ -49,4 +49,5 @@ TipoRet ListarPersonasCargo(Cargo c) {
     if (CargoVacio(c))
         return ERROR;
     ListarPersonasPersonas(c->personas);
+    return OK;
 }

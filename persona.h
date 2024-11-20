@@ -12,6 +12,6 @@ Cadena CiPersona(Persona p);
 
 Persona CrearPersona(Cadena ci, Cadena nombre);
 
-TipoRet EliminarPersona(Persona p);
+TipoRet EliminarPersonaPersona(Persona &p);
 
 #endif

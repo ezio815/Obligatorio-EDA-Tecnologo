@@ -56,12 +56,12 @@ void ListarPersonasPersonas(Personas p) {
 TipoRet eliminarLista(Personas &p) {
     if (!listaVacia(p)) {
         eliminarLista(p->siguiente);
-        if (EliminarPersona(p->persona) == ERROR)
+        if (EliminarPersonaPersona(p->persona) == ERROR)
             return ERROR;
         delete(p);
         p = NULL;
-        return OK;
     }
+    return OK;
 }
 
 TipoRet EliminarPersonas(Personas &p) {

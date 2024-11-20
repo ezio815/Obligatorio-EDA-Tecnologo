@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct nodo_persona {
+struct nodo_persona {
     Cadena ci;
     Cadena nombre;
 };
@@ -27,7 +27,7 @@ bool personaVacia(Persona p) {
     return p == NULL;
 }
 
-TipoRet EliminarPersona(Persona &p) {
+TipoRet EliminarPersonaPersona(Persona &p) {
     if (personaVacia(p))
         return ERROR;
     delete [] p->ci;

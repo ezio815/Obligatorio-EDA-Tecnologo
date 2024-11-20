@@ -30,10 +30,10 @@ int main (){
 	cout << "\tListarCargosAlf()\n";
 	cout << "\tListarJerarquia()\n";
 	cout << "\tAsignarPersona(cargo, ci, nombre)\n";
-	cout << "\tEliminarPersona(ci)\n";
-	cout << "\tReasignarPersona(cargo, ci)\n";
+//	cout << "\tEliminarPersona(ci)\n";
+//	cout << "\tReasignarPersona(cargo, ci)\n";
 	cout << "\tListarPersonas(cargo)\n";
-	cout << "\tListarSuperCargos(cargo)\n";
+//	cout << "\tListarSuperCargos(cargo)\n";
 	cout << "\tSalir\n\n";
 	
 	
@@ -124,7 +124,7 @@ int main (){
 				pch = strtok (NULL, "( ,)\n");
 				if (pch != NULL){
 					if (creado){
-						ret = EliminarPersona(e, pch);
+//						ret = EliminarPersona(e, pch);
 						ejecutado = true;
 					}else
 						cout << " - ERROR: para ejecutar el comando el organigrama debe estar creado.\n";
@@ -139,7 +139,7 @@ int main (){
 					pch1 = strtok (NULL, "( ,)\n");
 					if (pch1 != NULL){
 						if (creado){
-							ret = ReasignarPersona(e, pch, pch1);
+//							ret = ReasignarPersona(e, pch, pch1);
 							ejecutado = true;
 						}else
 							cout << " - ERROR: para ejecutar el comando el organigrama debe estar creado.\n";
@@ -164,7 +164,7 @@ int main (){
 				pch = strtok (NULL, "( ,)\n");
 				if (pch != NULL){
 					if (creado){
-						ret = ListarSuperCargos(e, pch);
+//						ret = ListarSuperCargos(e, pch);
 						ejecutado = true;
 					}else
 							cout << " - ERROR: para ejecutar el comando el organigrama debe estar creado.\n";
