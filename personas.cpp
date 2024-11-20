@@ -1,30 +1,23 @@
 #include "personas.h"
 
-#include <strings.h>
-
 struct nodo_personas {
-    Personas sig;
+    Personas siguiente;
     Persona persona;               
 };
 
-bool listaVacia(ListaCargos lista) {
+bool listaVacia(Personas lista) {
     return lista == NULL;
 }
 
-void insertarEnLista(Personas nuevaLista, Personas &listaOriginal) {
+void insertarAlInicio(Personas nuevaLista, Personas &listaOriginal) {
     if (listaVacia(listaOriginal))
         listaOriginal = nuevaLista;
-    int comparacion = strcasecmp(NombreCargo(nuevaLista->cargo), NombreCargo(listaOriginal->cargo));
-
-    if (comparacion < 0) {
-        Cargo aux = nuevaLista->cargo;
-        nuevaLista->cargo = listaOriginal->cargo;
+    else {
+        Persona aux = nuevaLista->persona;
+        nuevaLista->persona = listaOriginal->persona;
         nuevaLista->siguiente = listaOriginal->siguiente;
-        listaOriginal->cargo = aux;
+        listaOriginal->persona = aux;
         listaOriginal->siguiente = nuevaLista;
-    }
-    if (comparacion > 0) {
-        insertarEnLista(nuevaLista, listaOriginal->siguiente);
     }
 }
 
@@ -34,4 +27,38 @@ TipoRet CrearPersonas(Personas &c, Cadena ci, Cadena nombre) {
     
 }
 
-TipoRet EliminarPersonas(Personas &c);
+TipoRet AsignarPersonaPersonas(Personas &p, Cadena nom, Cadena ci) {
+    Personas nuevaLista = new(nodo_personas);
+    TipoRet retorno = CrearPersonas(nuevaLista, ci, nom);
+    insertarAlInicio(nuevaLista, p);
+    return retorno;
+}
+
+bool personaVacia(Personas p) {
+    return p == NULL;
+}
+
+void ListarPersonasPersonas(Personas p) {
+    if (!personaVacia(p)) {
+        ListarPersonasPersonas(p->siguiente);
+        printf("%s\n", NombrePersona(p->persona));
+    }
+}
+
+TipoRet eliminarLista(Personas &p) {
+    if (!listaVacia(p)) {
+        eliminarLista(p->siguiente);
+        if (EliminarPersona(p->persona) == ERROR)
+            return ERROR;
+        delete(p);
+        p = NULL;
+        return OK;
+    }
+}
+
+TipoRet EliminarPersonas(Personas &p) {
+    if (listaVacia(p) && eliminarLista(p) == ERROR)
+        return ERROR;
+    p = NULL;
+    return OK;
+}

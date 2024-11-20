@@ -13,6 +13,8 @@ TipoRet CrearCargo(Cargo &c, Cadena nombre) {
 }
 
 TipoRet EliminarCargo(Cargo &c) {
+    if (EliminarPersonas(c->personas) == ERROR)
+        return ERROR;
     delete(c);
     c = NULL;
     return OK;
@@ -30,4 +32,16 @@ TipoRet AñadirPersonaCargo(Cargo c, Cadena ci, Cadena nombre) {
     if (cargoVacio(c))
         return ERROR;
     return CrearPersonas(c->personas, ci, nombre);
+}
+
+TipoRet AsignarPersonaCargo(Cargo &c, Cadena nom, Cadena ci) {
+    if (cargoVacio(c))
+        return ERROR;
+    return AsignarPersonaPersonas(c->personas, nom, ci);
+}
+
+TipoRet ListarPersonasCargo(Cargo c) {
+    if (cargoVacio(c))
+        return ERROR;
+    ListarPersonasPersonas(c->personas);
 }

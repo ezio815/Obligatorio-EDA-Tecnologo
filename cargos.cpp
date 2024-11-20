@@ -4,7 +4,6 @@
 
 typedef struct nodo_arbol_cargos * ArbolCargos;
 struct nodo_arbol_cargos {
-    ArbolCargos padre;
     ArbolCargos primerHijo;
     ArbolCargos siguienteHermano;
     Cargo cargo;
@@ -34,7 +33,7 @@ bool cargoVacio(Cargos cargos) {
 }
 
 ListaCargos buscarCargoLista(ListaCargos lista, Cadena nombreCargo) {
-    if (!listaVacia(lista))
+    if (listaVacia(lista))
         return NULL;
     int comparacion = strcasecmp(NombreCargo(lista->cargo), nombreCargo);
 
@@ -47,7 +46,7 @@ ListaCargos buscarCargoLista(ListaCargos lista, Cadena nombreCargo) {
 }
 
 ArbolCargos buscarCargoArbol(ArbolCargos arbol, Cadena nombreCargo) {
-    if (!arbolVacio(arbol))
+    if (arbolVacio(arbol))
         return NULL;
 
     if (strcasecmp(NombreCargo(arbol->cargo), nombreCargo) == 0)
@@ -82,26 +81,51 @@ void insertarEnLista(ListaCargos nuevaLista, ListaCargos &listaOriginal) {
     }
 }
 
-TipoRet CrearCargos(Cargos &c, Cadena nombrePadre, Cadena nombreCargo) {
-    if (!cargoVacio(c)) {
-        if (buscarCargoLista(c->lista, nombreCargo) != NULL) {
-            return ERROR; 
-        }
+TipoRet CrearCargos(Cargos &c, Cadena nombreCargo) {
+    if (!cargoVacio(c))
+        return ERROR;
+
+    c = new(nodo_cargos);
+    c->arbol = NULL;
+    c->lista = NULL;
+
+    ArbolCargos nuevoArbol = new(nodo_arbol_cargos);
+
+    nuevoArbol->primerHijo = NULL;
+    nuevoArbol->siguienteHermano = NULL;
+
+    Cargo cargo = NULL;
+    TipoRet retorno = CrearCargo(cargo, nombreCargo);
+    nuevoArbol->cargo = cargo;
+
+    ListaCargos nuevaLista = new(nodo_lista_cargos);
+    nuevaLista->cargo = cargo;
+    nuevaLista->siguiente = NULL;
+
+    c->lista = nuevaLista;
+
+    return retorno;
+}
+
+TipoRet NuevoCargos(Cargos &c, Cadena nombrePadre, Cadena nombreCargo) {
+    if (cargoVacio(c)) 
+        return ERROR;
+
+    if (buscarCargoLista(c->lista, nombreCargo) != NULL) {
+        return ERROR; 
     }
 
     ArbolCargos padre = buscarCargoArbol(c->arbol, nombrePadre);
 
+    if (arbolVacio(padre))
+        return ERROR;
+
     ArbolCargos nuevoArbol = new(nodo_arbol_cargos);
 
-    nuevoArbol->padre = padre;
     nuevoArbol->primerHijo = NULL;
 
-    if (!arbolVacio(padre)) {
-        nuevoArbol->siguienteHermano = padre->primerHijo;
-        padre->primerHijo = nuevoArbol;
-    }
-    else
-        nuevoArbol->siguienteHermano = NULL;
+    nuevoArbol->siguienteHermano = padre->primerHijo;
+    padre->primerHijo = nuevoArbol;
 
     Cargo cargo = NULL;
     TipoRet retorno = CrearCargo(cargo, nombreCargo);
@@ -116,25 +140,10 @@ TipoRet CrearCargos(Cargos &c, Cadena nombrePadre, Cadena nombreCargo) {
     return retorno;
 }
 
-
-
-TipoRet EliminarCargos(Cargos &c);
-// Eliminar un cargo
-
 void listarCargosAlfRecursiva(ListaCargos lista) {
     if (!listaVacia(lista)) {
         printf("s\n", NombreCargo(lista->cargo));
         listarCargosAlfRecursiva(lista->siguiente);
-    }
-}
-
-void listarJerarquiaRecursiva(ArbolCargos arbol, int nivel) {
-    if (!arbolVacio(arbol)) {
-        for (int i = 0; i < nivel; i++)
-            printf("\t");
-        printf("%s\n", NombreCargo(arbol->cargo));
-        listarJerarquiaRecursiva(arbol->primerHijo, nivel + 1);
-        listarJerarquiaRecursiva(arbol->siguienteHermano, nivel);
     }
 }
 
@@ -145,6 +154,60 @@ TipoRet ListarCargosAlfCargos(Cargos c) {
     return OK;
 }
 
+TipoRet AsignarPersonaCargos(Cargos &c, Cadena cargo, Cadena nom, Cadena ci) {
+    if (cargoVacio(c) || listaVacia(c->lista))
+        return ERROR;
+    ListaCargos lista = buscarCargoLista(c->lista, cargo);
+    return AsignarPersonaCargo(lista->cargo, nom, ci);
+}
+
+TipoRet ListarPersonasCargos(Cargos c, Cadena cargo) {
+    if (cargoVacio(c))
+        return ERROR;
+    ListaCargos lista = buscarCargoLista(c->lista, cargo);
+    if (listaVacia(lista))
+        return ERROR;
+    return ListarPersonasCargo(lista->cargo);
+}
+
+TipoRet eliminarLista(ListaCargos &l) {
+    if (!listaVacia(l)) {
+        eliminarLista(l->siguiente);
+        if (EliminarCargo(l->cargo) == ERROR)
+            return ERROR;
+        delete(l);
+        l = NULL;
+        return OK;
+    }
+}
+
+void eliminarArbol(ArbolCargos &a) {
+    if (!arbolVacio(a)) {
+        eliminarArbol(a->siguienteHermano);
+        eliminarArbol(a->primerHijo);
+        delete(a);
+        a = NULL;
+    }
+}
+
+TipoRet EliminarCargos(Cargos &c) {
+    if (cargoVacio(c) && eliminarLista(c->lista) == ERROR)
+        return ERROR;
+    eliminarArbol(c->arbol);
+    c = NULL;
+    return OK;
+}
+
+
+void listarJerarquiaRecursiva(ArbolCargos arbol, int nivel) {
+    if (!arbolVacio(arbol)) {
+        for (int i = 0; i < nivel; i++)
+            printf("\t");
+        printf("%s\n", NombreCargo(arbol->cargo));
+        listarJerarquiaRecursiva(arbol->primerHijo, nivel + 1);
+        listarJerarquiaRecursiva(arbol->siguienteHermano, nivel);
+    }
+}
 
 TipoRet ListarJerarquiaCargos(Cargos c) {
     if (cargoVacio(c) || arbolVacio(c->arbol))

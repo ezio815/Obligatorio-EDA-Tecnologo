@@ -6,10 +6,10 @@
 // Estructura para representar a una persona
 typedef struct nodo_persona * Persona;
 
-NombrePersona();
+Cadena NombrePersona(Persona p);
 
 Persona CrearPersona(Cadena ci, Cadena nombre);
 
-void EliminarPersona(Persona persona);
+TipoRet EliminarPersona(Persona p);
 
 #endif

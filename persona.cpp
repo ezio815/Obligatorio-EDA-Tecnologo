@@ -7,11 +7,19 @@ typedef struct nodo_persona {
 
 Persona CrearPersona(Cadena ci, Cadena nombre) {
     Persona persona = new(nodo_persona);
-    persona->ci = ci;
-    persona->nombre = nombre;
+    strcpy(persona->ci, ci);
+    strcpy(persona->nombre, nombre);
     return persona;
 }
 
-void EliminarPersona(Persona persona) {
-    
+bool personaVacia(Persona p) {
+    return p == NULL;
+}
+
+TipoRet EliminarPersona(Persona &p) {
+    if (personaVacia(p))
+        return ERROR;
+    delete(p);
+    p = NULL;
+    return OK;
 }
