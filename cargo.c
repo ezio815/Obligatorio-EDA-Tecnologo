@@ -11,6 +11,7 @@ struct nodo_cargo {
 
 TipoRet CrearCargo(Cargo &c, Cadena nombre) {
     c = new(nodo_cargo);
+    c->nombre = new(char);
     strcpy(c->nombre, nombre);
     c->personas = NULL;
     return OK;

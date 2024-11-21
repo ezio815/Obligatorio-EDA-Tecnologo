@@ -12,9 +12,6 @@ bool empresaVacia(Empresa e) {
 }
 
 TipoRet CrearOrg(Empresa &e, Cadena cargo) {
-    if (!empresaVacia(e)) {
-        return ERROR; 
-    }
     e = new(nodo_empresa);
     Cargos c = NULL;
     TipoRet retorno = CrearCargos(c, cargo);
@@ -23,9 +20,6 @@ TipoRet CrearOrg(Empresa &e, Cadena cargo) {
 }
 
 TipoRet NuevoCargo(Empresa &e, Cadena cargoPadre, Cadena nuevoCargo) {
-    if (e->cabezal == NULL) {
-        return ERROR; 
-    }
     return NuevoCargos(e->cabezal, cargoPadre, nuevoCargo);
 }
 

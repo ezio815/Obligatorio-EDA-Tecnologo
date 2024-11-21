@@ -46,7 +46,6 @@ int main (){
 		fgets (comando, MAX_COMANDO, stdin);
 		
 		pch = strtok (comando,"( ,)\n");
-		
 		if (pch != NULL){
 			if (strcasecmp (pch, "CrearOrg") == 0){
 				pch = strtok (NULL, "( ,)\n");

@@ -65,7 +65,7 @@ TipoRet eliminarLista(Personas &p) {
 }
 
 TipoRet EliminarPersonas(Personas &p) {
-    if (listaVacia(p) || eliminarLista(p) == ERROR)
+    if (eliminarLista(p) == ERROR)
         return ERROR;
     p = NULL;
     return OK;

@@ -86,7 +86,6 @@ void insertarEnLista(ListaCargos nuevaLista, ListaCargos &listaOriginal) {
 TipoRet CrearCargos(Cargos &c, Cadena nombreCargo) {
     if (!cargosVacio(c))
         return ERROR;
-
     c = new(nodo_cargos);
     c->arbol = NULL;
     c->lista = NULL;
@@ -104,6 +103,7 @@ TipoRet CrearCargos(Cargos &c, Cadena nombreCargo) {
     nuevaLista->cargo = cargo;
     nuevaLista->siguiente = NULL;
 
+    c->arbol = nuevoArbol;
     c->lista = nuevaLista;
 
     return retorno;
@@ -211,7 +211,6 @@ TipoRet EliminarCargos(Cargos &c) {
     c = NULL;
     return OK;
 }
-
 
 TipoRet eliminarNodoArbol(ArbolCargos &a) {
     if (EliminarCargoCargo(a->cargo) == ERROR)
